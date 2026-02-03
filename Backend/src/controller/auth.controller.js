@@ -129,143 +129,6 @@ export const logout = async (req, res) => {
   }
 };
 
-// export const register = async (req, res) => {
-//   // const db = db.promise();
-
-//   try {
-//     const {
-//       name,
-//       email,
-//       mobile,
-//       password,
-//       pan_number,
-//       aadhaar_number,
-//       bank_account_number,
-//       bank_ifsc_code,
-//       bank_branch,
-//       account_holder_name,
-//     } = req.body;
-
-//     // ✅ Extract images from multer
-//     const panImage = req.files?.pan_image?.[0]?.path || null;
-//     const aadhaarImage = req.files?.aadhaar_image?.[0]?.path || null;
-//     const passbookImage = req.files?.bank_passbook_image?.[0]?.path || null;
-
-//     // ✅ Basic validation
-//     if (
-//       !name ||
-//       !email ||
-//       !mobile ||
-//       !password ||
-//       !pan_number ||
-//       !aadhaar_number ||
-//       !bank_account_number ||
-//       !bank_ifsc_code ||
-//       !bank_branch ||
-//       !account_holder_name ||
-//       !panImage ||
-//       !aadhaarImage ||
-//       !passbookImage
-//     ) {
-//       return res.status(400).json({
-//         success: false,
-//         message: "All fields and images are required",
-//       });
-//     }
-
-//     // ✅ Check email OR mobile exists
-//     const [existingUsers] = await db.execute(
-//       `SELECT id FROM users WHERE email=? OR mobile=?`,
-//       [email, mobile]
-//     );
-
-//     if (existingUsers.length > 0) {
-//       return res.status(409).json({
-//         success: false,
-//         message: "Email or mobile already registered",
-//       });
-//     }
-
-//     // 🔐 Start transaction
-//     await db.beginTransaction();
-
-//     // 🔐 Hash password
-//     const hashedPassword = await bcrypt.hash(password, 10);
-
-//     // 🔢 OTP
-//     const otp = generateOTP();
-//     const otpExpiryTime = new Date(Date.now() + 5 * 60 * 1000);
-
-//     // ✅ Insert user (FIXED)
-//     const [userResult] = await db.execute(
-//       `
-//       INSERT INTO users
-//       (name, email, mobile, password, otp, otp_time_limit)
-//       VALUES (?, ?, ?, ?, ?, ?)
-//       `,
-//       [name, email, mobile, hashedPassword, otp, otpExpiryTime]
-//     );
-
-//     const userId = userResult.insertId;
-
-//     // ✅ Insert documents (IMAGES SAVED AS PATHS)
-//     await db.execute(
-//       `
-//       INSERT INTO user_documents (
-//         user_id,
-//         pan_number,
-//         pan_image,
-//         aadhaar_number,
-//         aadhaar_image,
-//         bank_account_number,
-//         bank_ifsc_code,
-//         bank_branch,
-//         account_holder_name,
-//         bank_passbook_image
-//       )
-//       VALUES (?,?,?,?,?,?,?,?,?,?)
-//       `,
-//       [
-//         userId,
-//         pan_number,
-//         panImage,
-//         aadhaar_number,
-//         aadhaarImage,
-//         bank_account_number,
-//         bank_ifsc_code,
-//         bank_branch,
-//         account_holder_name,
-//         passbookImage,
-//       ]
-//     );
-
-//     // 📧 Send OTP
-//     await sendOTPEmail(
-//       email,
-//       "Email Verification OTP",
-//       `
-//         <h2>Email Verification</h2>
-//         <h1>${otp}</h1>
-//         <p>OTP valid for 5 minutes</p>
-//       `
-//     );
-
-//     await db.commit();
-
-//     return res.status(201).json({
-//       success: true,
-//       message: "Registered successfully. OTP sent.",
-//     });
-//   } catch (error) {
-//     await db.rollback();
-//     console.error("Register Error:", error);
-
-//     return res.status(500).json({
-//       success: false,
-//       message: "Registration failed",
-//     });
-//   }
-// };
 
 export const register = async (req, res) => {
   const connection = await db.getConnection(); // ✅ NEW
@@ -384,10 +247,9 @@ export const register = async (req, res) => {
     await sendOTPEmail(
       email,
       "Email Verification OTP",
-      `
-        <h2>Email Verification</h2>
-        <h1>${otp}</h1>
-        <p>OTP valid for 5 minutes</p>
+      `<h2>Email Verification</h2>
+      <h1>${otp}</h1>
+      <p>OTP valid for 5 minutes</p>
       `
     );
 
@@ -407,8 +269,6 @@ export const register = async (req, res) => {
     connection.release(); // ✅ MUST release connection
   }
 };
-
-
 
 export const verifyEmail = async (req, res) => {
   // const db = db.promise();
