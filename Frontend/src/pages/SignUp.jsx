@@ -51,10 +51,21 @@ const SignUp = () => {
 
       const data = await response.json();
 
+
+      console.log(data);
+
+
       if (!data.success) {
         alert("Registration failed");
         return;
       }
+
+
+      if (data.success) {
+        alert(data?.message);
+      }
+
+
 
       // ✅ store email for verification
       localStorage.setItem("verify_email", formData.email);
