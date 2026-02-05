@@ -17,8 +17,7 @@ const PORT = process.env.PORT || 3000;
 app.use(
   cors({
     origin: [
-      "http://localhost:5173",
-      "https://frontend.akritiarchitectsandengineers.com",
+      "http://localhost:5173",      
       "https://forex-1-r2jk.onrender.com",
       "https://forex-1-fthp.onrender.com",
       "https://www.tradebullforex.com",
