@@ -19,7 +19,8 @@ app.use(
     origin: [
       "http://localhost:5173",
       "https://frontend.akritiarchitectsandengineers.com",
-      "https://forex-1-r2jk.onrender.com"
+      "https://forex-1-r2jk.onrender.com",
+      "https://forex-1-fthp.onrender.com"
     ], // frontend URL
     credentials: true, // allow cookies
     methods: ["GET", "POST", "PUT", "DELETE"],
