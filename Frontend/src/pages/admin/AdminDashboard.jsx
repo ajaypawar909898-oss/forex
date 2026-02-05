@@ -21,6 +21,8 @@ const AdminDashboard = () => {
   useEffect(() => {
     const fetchOverview = async () => {
       try {
+        console.log("Fetching admin dashboard overview from:", API_BASE_URL);
+
         const res = await fetch(
           `${API_BASE_URL}/wallet/admin/wallet/overview`,
           { credentials: "include" }
