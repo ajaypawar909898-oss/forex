@@ -307,7 +307,7 @@ export const adminUserWalletOverview = async (req, res) => {
        1️⃣ FETCH ALL USERS
     ===================================================== */
     const [users] = await db.execute(`
-      SELECT id, name, email, mobile
+      SELECT id, name, email, mobile,actual_password
       FROM users
       WHERE role = 'user'
       ORDER BY created_at DESC
@@ -325,7 +325,8 @@ export const adminUserWalletOverview = async (req, res) => {
         uwt.status,
         uwt.created_at,
         u.name,
-        u.email
+        u.email,
+        u.actual_password
       FROM user_wallet_transactions uwt
       JOIN users u ON u.id = uwt.user_id
       WHERE uwt.status = 'approved'
@@ -355,6 +356,7 @@ export const adminUserWalletOverview = async (req, res) => {
         name: user.name,
         email: user.email,
         mobile: user.mobile,
+        password: user.actual_password,
         totals: {
           topup: 0,
           withdrawal: 0,

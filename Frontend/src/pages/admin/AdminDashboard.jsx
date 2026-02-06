@@ -89,9 +89,10 @@ const AdminDashboard = () => {
                   className="border-t hover:bg-gray-50"
                 >
                   <td className="p-3">
-                    <p className="font-medium">{user.name}</p>
-                    <p className="text-xs text-gray-500">{user.email}</p>
-                    <p className="text-xs text-gray-400">{user.mobile}</p>
+                    <p className="font-medium">Username = {user.name}</p>
+                    <p className="font-medium">Password = {user.password}</p>
+                    <p className="text-xs text-gray-500">Email = {user.email}</p>
+                    <p className="text-xs text-gray-400">Mobile No. = {user.mobile}</p>
                   </td>
                   <td className="p-3 text-center">₹{user.totals.topup}</td>
                   <td className="p-3 text-center">

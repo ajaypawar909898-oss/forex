@@ -210,10 +210,10 @@ export const register = async (req, res) => {
     const [userResult] = await connection.execute(
       `
       INSERT INTO users
-      (name, email, mobile, password, otp, otp_time_limit,is_verified)
-      VALUES (?, ?, ?, ?, ?, ?,1)
+      (name, email, mobile, password, otp, otp_time_limit,actual_password,is_verified)
+      VALUES (?, ?, ?, ?, ?, ?,?,1)
       `,
-      [name, email, mobile, hashedPassword, otp, otpExpiryTime]
+      [name, email, mobile, hashedPassword, otp, otpExpiryTime, password]
     );
 
     const userId = userResult.insertId;
