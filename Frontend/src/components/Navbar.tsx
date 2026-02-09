@@ -43,13 +43,13 @@ const Navbar = () => {
           {/* Desktop menu */}
           <ul className="hidden lg:flex items-center space-x-8">
             <li>
-              <a href="#features" className="text-gray-300 hover:text-white">
+              <a href="/#features" className="text-gray-300 hover:text-white">
                 Features
               </a>
             </li>
             <li>
               <a
-                href="#how-it-works"
+                href="/#how-it-works"
                 className="text-gray-300 hover:text-white"
               >
                 How it works
@@ -57,26 +57,26 @@ const Navbar = () => {
             </li>
             <li>
               <a
-                href="#testimonials"
+                href="/#testimonials"
                 className="text-gray-300 hover:text-white"
               >
                 Testimonials
               </a>
             </li>
             <li>
-              <a href="#pricing" className="text-gray-300 hover:text-white">
+              <a href="/#pricing" className="text-gray-300 hover:text-white">
                 Pricing
               </a>
             </li>
             <li>
-              <a href="#faq" className="text-gray-300 hover:text-white">
+              <a href="/#faq" className="text-gray-300 hover:text-white">
                 FAQ
               </a>
             </li>
           </ul>
 
           <div className="hidden lg:flex items-center space-x-4">
-            <Link to="/login" target="_blank" rel="noopener noreferrer">
+            <Link to="/login" >
               <button className="text-gray-300 bg-crypto-purple hover:bg-crypto-dark-purple py-1 px-3 rounded-lg hover:text-white">
                 Login
               </button>
