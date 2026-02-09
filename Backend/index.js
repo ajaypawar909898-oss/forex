@@ -60,11 +60,12 @@ app.use(
 
 
 // 🔥 CATCH-ALL (THIS FIXES 404 ON REFRESH)
-app.get("*", (req, res) => {
+app.use((req, res) => {
   res.sendFile(
     path.join(__dirname, "../Frontend/dist/index.html")
   );
 });
+
 
 
 console.log(
