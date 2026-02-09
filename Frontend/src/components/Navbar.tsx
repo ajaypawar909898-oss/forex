@@ -43,13 +43,13 @@ const Navbar = () => {
           {/* Desktop menu */}
           <ul className="hidden lg:flex items-center space-x-8">
             <li>
-              <a href="/#features" className="text-gray-300 hover:text-white">
+              <a href="/#/#features" className="text-gray-300 hover:text-white">
                 Features
               </a>
             </li>
             <li>
               <a
-                href="/#how-it-works"
+                href="/#/#how-it-works"
                 className="text-gray-300 hover:text-white"
               >
                 How it works
@@ -57,19 +57,19 @@ const Navbar = () => {
             </li>
             <li>
               <a
-                href="/#testimonials"
+                href="/#/#testimonials"
                 className="text-gray-300 hover:text-white"
               >
                 Testimonials
               </a>
             </li>
             <li>
-              <a href="/#pricing" className="text-gray-300 hover:text-white">
+              <a href="/#/#pricing" className="text-gray-300 hover:text-white">
                 Pricing
               </a>
             </li>
             <li>
-              <a href="/#faq" className="text-gray-300 hover:text-white">
+              <a href="/#/#faq" className="text-gray-300 hover:text-white">
                 FAQ
               </a>
             </li>
@@ -99,7 +99,7 @@ const Navbar = () => {
               <ul className="flex flex-col space-y-4">
                 <li>
                   <a
-                    href="#features"
+                    href="/#/#features"
                     className="text-gray-300 hover:text-white block py-2"
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
@@ -108,7 +108,7 @@ const Navbar = () => {
                 </li>
                 <li>
                   <a
-                    href="#how-it-works"
+                    href="/#/#how-it-works"
                     className="text-gray-300 hover:text-white block py-2"
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
@@ -117,7 +117,7 @@ const Navbar = () => {
                 </li>
                 <li>
                   <a
-                    href="#testimonials"
+                    href="/#/#testimonials"
                     className="text-gray-300 hover:text-white block py-2"
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
@@ -126,7 +126,7 @@ const Navbar = () => {
                 </li>
                 <li>
                   <a
-                    href="#pricing"
+                    href="/#/#pricing"
                     className="text-gray-300 hover:text-white block py-2"
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
@@ -135,7 +135,7 @@ const Navbar = () => {
                 </li>
                 <li>
                   <a
-                    href="#faq"
+                    href="/#/#faq"
                     className="text-gray-300 hover:text-white block py-2"
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
