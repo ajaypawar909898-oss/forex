@@ -1,5 +1,5 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { HashRouter as Router, Routes, Route } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -50,7 +50,7 @@ const App = () => (
 
     <Tooltip id="app-tooltip" />
 
-    <BrowserRouter>
+    <Router>
       <Routes>
         {/* ======================
             PUBLIC ROUTES
@@ -101,7 +101,7 @@ const App = () => (
         {/* Catch-all */}
         <Route path="*" element={<NotFound />} />
       </Routes>
-    </BrowserRouter>
+    </Router>
   </QueryClientProvider>
 );
 
