@@ -1,4 +1,4 @@
-const WelcomeModal = ({ open, onContinue }) => {
+const WelcomeModal = ({ open, onContinue, userData }) => {
   if (!open) return null;
 
   return (
@@ -7,7 +7,7 @@ const WelcomeModal = ({ open, onContinue }) => {
         <div className="p-6 border-b">
           <h2 className="text-xl font-bold">👋 Welcome</h2>
           <p className="text-sm text-gray-500 mt-1">
-            Welcome to Forex Trading
+            Welcome to  <b className="text-orange-500"> Trade Bull Forex</b>, {userData?.name || "Trader"}! Your dashboard is ready.
           </p>
         </div>
 

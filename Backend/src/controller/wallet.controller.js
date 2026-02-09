@@ -108,6 +108,7 @@ export const getWalletBalance = async (req, res) => {
 export const getWalletLedger = async (req, res) => {
   // const db = db.promise();
   const userId = req.user.id;
+  const userDetails = req?.user
 
   try {
     /* ================================
@@ -171,6 +172,7 @@ export const getWalletLedger = async (req, res) => {
     ================================= */
     return res.json({
       success: true,
+      user: userDetails,
       summary: {
         total_topup,
         total_withdrawal,

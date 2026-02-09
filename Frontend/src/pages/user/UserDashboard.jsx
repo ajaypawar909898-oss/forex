@@ -204,6 +204,7 @@ const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 /* ================= STAT CARD ================= */
 const StatCard = ({ title, amount, icon: Icon, gradient, textColor }) => {
   const [count, setCount] = useState(0);
+  
 
   useEffect(() => {
     const target =
@@ -263,6 +264,7 @@ const UserDashboard = () => {
     final_balance: 0,
   });
   const [loading, setLoading] = useState(true);
+  const [userData, setUserData] = useState(null);
 
     /* 🔹 WELCOME DIALOG STATE */
   const [showWelcome, setShowWelcome] = useState(false);
@@ -291,6 +293,7 @@ const UserDashboard = () => {
         const data = await res.json();
         if (data.success && data.summary) {
           setSummary(data.summary);
+          setUserData(data.user);
         }
       } catch (err) {
         console.error("Dashboard fetch failed", err);
@@ -389,6 +392,7 @@ const UserDashboard = () => {
          {/* ================= WELCOME DIALOG ================= */}
       <WelcomeModal
         open={showWelcome}
+        userData={userData}
         onContinue={handleWelcomeContinue}
       />
       </>

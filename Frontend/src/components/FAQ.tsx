@@ -210,7 +210,7 @@ const FAQ = () => {
                 </div>
                 <div className="text-center">
                   <div className="text-white font-bold mb-2">Email</div>
-                  <div className="text-gray-400 text-sm">support@forextrading.com</div>
+                  <div className="text-gray-400 text-sm">support@tradebullforex.com</div>
                 </div>
                 <div className="text-center">
                   <div className="text-white font-bold mb-2">Response Time</div>

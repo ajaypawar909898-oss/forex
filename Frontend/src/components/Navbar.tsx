@@ -36,7 +36,7 @@ const Navbar = () => {
         <div className="container mx-auto px-4 flex justify-between items-center">
           <div className="flex items-center">
             <h1 className="text-2xl font-bold text-white">
-              Forex<span className="text-crypto-purple">Trading</span>
+              Trade<span className="text-crypto-purple">Bull Forex</span>
             </h1>
           </div>
 
