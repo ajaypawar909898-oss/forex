@@ -133,8 +133,6 @@ const UserSidebar = ({ isOpen }) => {
           <NavLink
             key={item.name}
             to={item.path}
-              target={item.newTab ? "_blank" : undefined}
-  rel={item.newTab ? "noopener noreferrer" : undefined}
             className={({ isActive }) =>
               `flex items-center gap-3 px-4 py-3 rounded-lg transition
               ${
