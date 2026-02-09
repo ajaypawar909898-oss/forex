@@ -9,7 +9,7 @@ import usersRoutes from "./src/routes/users.routes.js";
 import tradeRoutes from "./src/routes/trade.routes.js";
 import bankRoutes from "./src/routes/bank.routes.js";
 import cryptoRoutes from "./src/routes/crypto.routes.js";
-import path from "path";
+
 dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 3000;
