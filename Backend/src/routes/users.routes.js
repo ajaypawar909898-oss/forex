@@ -4,6 +4,7 @@ import { isAuthenticated } from "../middleware/auth.middleware.js";
 import {
   getAllUnApprovedUsers,
   getAllUsers,
+  editUserById
 } from "../controller/users.controller.js";
 const userRoutes = express.Router();
 
@@ -11,4 +12,6 @@ const userRoutes = express.Router();
 
 userRoutes.get("/", isAuthenticated, getAllUsers);
 userRoutes.get("/unapprove", isAuthenticated, getAllUnApprovedUsers);
+userRoutes.post("/edit", isAuthenticated, editUserById);
+
 export default userRoutes;

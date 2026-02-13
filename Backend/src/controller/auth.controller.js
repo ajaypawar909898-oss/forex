@@ -7,6 +7,114 @@ const generateOTP = () => {
   return Math.floor(100000 + Math.random() * 900000);
 };
 
+// export const login = async (req, res) => {
+//   // const db = db.promise();
+
+//   try {
+//     console.log(req?.body);
+//     const { email, password } = req.body;
+
+//     if (!email || !password) {
+//       return res.status(400).json({
+//         success: false,
+//         message: "Email and password are required",
+//       });
+//     }
+
+//     // 🔍 Find user
+//     const query = `
+//       SELECT id, name, email, password, role, is_verified,is_approved
+//       FROM users
+//       WHERE email = ?
+//     `;
+
+//     const [rows] = await db.execute(query, [email]);
+
+//     if (rows.length === 0) {
+//       return res.status(401).json({
+//         success: false,
+//         message: "Invalid email or password",
+//       });
+//     }
+
+//     const user = rows[0];
+
+//     console.log(user);
+
+//     // ❌ Email not verified
+//     if (!user.is_verified) {
+//       return res.status(403).json({
+//         success: false,
+//         message: "Please verify your email first",
+//       });
+//     }
+
+//     if (!user.is_approved) {
+//       return res.status(403).json({
+//         success: false,
+//         message: "You Are not Verify by admin",
+//       });
+//     }
+
+//     // 🔐 Check password
+//     const isMatch = await bcrypt.compare(password, user.password);
+
+//     if (!isMatch) {
+//       return res.status(401).json({
+//         success: false,
+//         message: "Invalid email or password",
+//       });
+//     }
+
+//     // 🎫 Create JWT
+//     const token = jwt.sign(
+//       {
+//         id: user.id,
+//         role: user.role,
+//       },
+//       process.env.JWT_SECRET,
+//       {
+//         expiresIn: process.env.JWT_EXPIRES_IN,
+//       }
+//     );
+
+//     // 🍪 Store token in cookie
+//     // res.cookie("token", token, {
+//     //   httpOnly: true,
+//     //   secure: false, // set true in production (HTTPS)
+//     //   sameSite: "strict",
+//     //   maxAge: 24 * 60 * 60 * 1000, // 1 day
+//     // });
+
+
+//     res.cookie("token", token, {
+//       httpOnly: true,
+//       secure: true,          // ✅ REQUIRED on HTTPS
+//       sameSite: "none",      // ✅ REQUIRED for cross-site
+//       maxAge: 24 * 60 * 60 * 1000,
+//     });
+
+
+//     return res.status(200).json({
+//       success: true,
+//       message: "Login successful",
+//       data: {
+//         id: user.id,
+//         name: user.name,
+//         email: user.email,
+//         role: user.role,
+//       },
+//     });
+//   } catch (error) {
+//     console.error("Login Error:", error);
+
+//     return res.status(500).json({
+//       success: false,
+//       message: "Login failed",
+//     });
+//   }
+// };
+
 export const login = async (req, res) => {
   // const db = db.promise();
 
@@ -23,9 +131,21 @@ export const login = async (req, res) => {
 
     // 🔍 Find user
     const query = `
-      SELECT id, name, email, password, role, is_verified,is_approved
-      FROM users
-      WHERE email = ?
+     SELECT
+    u.id,
+    u.name,
+    u.email,
+    u.password,   -- ⭐ ADD THIS
+    u.role,
+    u.is_verified,
+    u.is_approved,
+    u.mobile,
+
+    us.*
+FROM users u
+LEFT JOIN user_documents us
+    ON us.user_id = u.id
+WHERE u.email = ?
     `;
 
     const [rows] = await db.execute(query, [email]);
@@ -69,7 +189,7 @@ export const login = async (req, res) => {
     // 🎫 Create JWT
     const token = jwt.sign(
       {
-        id: user.id,
+        id: user.user_id,
         role: user.role,
       },
       process.env.JWT_SECRET,
@@ -99,10 +219,7 @@ export const login = async (req, res) => {
       success: true,
       message: "Login successful",
       data: {
-        id: user.id,
-        name: user.name,
-        email: user.email,
-        role: user.role,
+        ...user
       },
     });
   } catch (error) {
@@ -114,6 +231,7 @@ export const login = async (req, res) => {
     });
   }
 };
+
 
 export const logout = async (req, res) => {
   try {

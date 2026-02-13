@@ -41,7 +41,7 @@ const Navbar = () => {
           </div>
 
           {/* Desktop menu */}
-          <ul className="hidden lg:flex items-center space-x-8">
+          {/* <ul className="hidden lg:flex items-center space-x-8">
             <li>
               <a href="/#/#features" className="text-gray-300 hover:text-white">
                 Features
@@ -73,7 +73,7 @@ const Navbar = () => {
                 FAQ
               </a>
             </li>
-          </ul>
+          </ul> */}
 
           <div className="hidden lg:flex items-center space-x-4">
             <Link to="/login" >
@@ -96,7 +96,7 @@ const Navbar = () => {
         {isMobileMenuOpen && (
           <div className="lg:hidden bg-crypto-blue/95 backdrop-blur-lg absolute top-full left-0 w-full py-4 shadow-lg">
             <div className="container mx-auto px-4">
-              <ul className="flex flex-col space-y-4">
+              {/* <ul className="flex flex-col space-y-4">
                 <li>
                   <a
                     href="/#/#features"
@@ -149,7 +149,7 @@ const Navbar = () => {
                     </button>
                   </Link>
                 </li>
-              </ul>
+              </ul> */}
             </div>
           </div>
         )}
