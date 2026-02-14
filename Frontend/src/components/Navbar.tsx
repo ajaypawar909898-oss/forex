@@ -96,52 +96,7 @@ const Navbar = () => {
         {isMobileMenuOpen && (
           <div className="lg:hidden bg-crypto-blue/95 backdrop-blur-lg absolute top-full left-0 w-full py-4 shadow-lg">
             <div className="container mx-auto px-4">
-              {/* <ul className="flex flex-col space-y-4">
-                <li>
-                  <a
-                    href="/#/#features"
-                    className="text-gray-300 hover:text-white block py-2"
-                    onClick={() => setIsMobileMenuOpen(false)}
-                  >
-                    Features
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="/#/#how-it-works"
-                    className="text-gray-300 hover:text-white block py-2"
-                    onClick={() => setIsMobileMenuOpen(false)}
-                  >
-                    How it works
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="/#/#testimonials"
-                    className="text-gray-300 hover:text-white block py-2"
-                    onClick={() => setIsMobileMenuOpen(false)}
-                  >
-                    Testimonials
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="/#/#pricing"
-                    className="text-gray-300 hover:text-white block py-2"
-                    onClick={() => setIsMobileMenuOpen(false)}
-                  >
-                    Pricing
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="/#/#faq"
-                    className="text-gray-300 hover:text-white block py-2"
-                    onClick={() => setIsMobileMenuOpen(false)}
-                  >
-                    FAQ
-                  </a>
-                </li>
+              <ul className="flex flex-col space-y-4">
                 <li className="pt-4 flex flex-col space-y-3">
                   <Link to="/login" onClick={() => setIsMobileMenuOpen(false)}>
                     <button className="text-gray-300 hover:text-white w-full text-left">
@@ -149,7 +104,7 @@ const Navbar = () => {
                     </button>
                   </Link>
                 </li>
-              </ul> */}
+              </ul>
             </div>
           </div>
         )}
