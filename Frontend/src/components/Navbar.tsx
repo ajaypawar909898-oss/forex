@@ -99,9 +99,9 @@ const Navbar = () => {
               <ul className="flex flex-col space-y-4">
                 <li className="pt-4 flex flex-col space-y-3">
                   <Link to="/login" onClick={() => setIsMobileMenuOpen(false)}>
-                    <button className="text-gray-300 hover:text-white w-full text-left">
-                      Login
-                    </button>
+                    <button className="text-gray-300 bg-crypto-purple hover:bg-crypto-dark-purple py-1 px-3 rounded-lg hover:text-white">
+                Login
+              </button>
                   </Link>
                 </li>
               </ul>
