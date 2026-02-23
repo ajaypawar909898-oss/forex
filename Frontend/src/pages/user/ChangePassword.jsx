@@ -1,6 +1,63 @@
 import { Lock } from "lucide-react";
-
+import { editUserPassword } from "../../api/bank.api";
+import { useState } from "react";
+import { toast } from "react-toastify";
 const ChangePassword = () => {
+
+
+  const [formdata, setFormdata] = useState({
+    confirmPassword: "",
+    newPassword: "",
+    oldPassword: ""
+  })
+
+  const handleChangePassword = async (e) => {
+    e.preventDefault();
+
+    if (!formdata.oldPassword || !formdata.newPassword || !formdata.confirmPassword) {
+      toast.error("All fields are required");
+      return;
+    }
+
+    if (formdata.newPassword !== formdata.confirmPassword) {
+      toast.error("New passwords do not match");
+      return;
+    }
+
+    try {
+      const res = await editUserPassword(formdata);
+
+      if (res?.data?.success) {
+        toast.success(res.data.message);
+
+        // clear form after success
+        setFormdata({
+          oldPassword: "",
+          newPassword: "",
+          confirmPassword: ""
+        });
+
+      } else {
+        toast.error(res.data.message);
+      }
+
+    } catch (error) {
+      toast.error(error?.response?.data?.message || "Something went wrong");
+    }
+  };
+
+
+  const onHnadleChange = (e) => {
+    e.preventDefault()
+    const { name, value } = e.target
+
+    setFormdata((prev) => ({
+      ...prev,
+      [name]: value
+    }))
+
+  }
+
   return (
     <div className="p-6">
       {/* Page Title */}
@@ -13,7 +70,7 @@ const ChangePassword = () => {
         <h3 className="text-lg font-semibold mb-6">Change Password</h3>
 
         {/* Form */}
-        <form className="space-y-6">
+        <form className="space-y-6" onSubmit={handleChangePassword}>
           {/* Old Password */}
           <div>
             <label className="block mb-2 text-gray-700">Old Password</label>
@@ -25,6 +82,9 @@ const ChangePassword = () => {
               <input
                 type="password"
                 placeholder="Old Password"
+                onChange={onHnadleChange}
+                name="oldPassword"
+                value={formdata?.oldPassword}
                 className="w-full pl-10 pr-4 py-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-crypto-purple"
               />
             </div>
@@ -43,6 +103,10 @@ const ChangePassword = () => {
                 <input
                   type="password"
                   placeholder="New Password"
+                  onChange={onHnadleChange}
+                  name="newPassword"
+                  value={formdata?.newPassword}
+
                   className="w-full pl-10 pr-4 py-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-crypto-purple"
                 />
               </div>
@@ -61,6 +125,9 @@ const ChangePassword = () => {
                 <input
                   type="password"
                   placeholder="Re-Enter New Password"
+                  onChange={onHnadleChange}
+                  name="confirmPassword"
+                  value={formdata?.confirmPassword}
                   className="w-full pl-10 pr-4 py-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-crypto-purple"
                 />
               </div>

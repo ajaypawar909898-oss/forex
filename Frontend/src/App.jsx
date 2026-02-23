@@ -34,6 +34,8 @@ import AddTrade from "./pages/admin/AddTrade";
 import ProtectedRoute from "./routes/ProtectedRoute";
 import BankDetails from "./pages/admin/BankPage";
 
+import AllUser from "./pages/admin/AllUser";
+
 const queryClient = new QueryClient();
 
 const App = () => (
@@ -96,6 +98,7 @@ const App = () => (
           <Route path="/admin/profit-loss" element={<AddProfitAndLoss />} />
           <Route path="/admin/trade" element={<AddTrade />} />
           <Route path="/admin/bankDetail" element={<BankDetails />} />
+          <Route path="/admin/all-user" element={<AllUser />} />
         </Route>
 
         {/* Catch-all */}

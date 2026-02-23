@@ -1,7 +1,8 @@
-// import { useState } from "react";
+// import { useEffect, useState } from "react";
+// import { fetchBanks } from "../../api/bank.api";
 
 // const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
-
+// const API_BASE_URL_IMAGE = import.meta.env.VITE_API_BASE_URL_IMAGE;
 
 // const tabs = ["QR CODE", "BANK DETAILS", "UPI ID"];
 
@@ -9,8 +10,29 @@
 //   const [activeTab, setActiveTab] = useState("BANK DETAILS");
 //   const [amount, setAmount] = useState("");
 //   const [file, setFile] = useState(null);
+//   const [bank, setBank] = useState(null);
 
-//   // ✅ SUBMIT HANDLER (added)
+//   /* ===============================
+//      FETCH BANK DATA
+//   =============================== */
+//   useEffect(() => {
+//     const loadBank = async () => {
+//       try {
+//         const { data } = await fetchBanks();
+//         if (data?.data?.length) {
+//           setBank(data.data[0]); // only one active bank
+//         }
+//       } catch (error) {
+//         console.error("Failed to fetch bank", error);
+//       }
+//     };
+
+//     loadBank();
+//   }, []);
+
+//   /* ===============================
+//      SUBMIT HANDLER
+//   =============================== */
 //   const handleSubmit = async () => {
 //     if (!amount || !file) {
 //       alert("Please enter amount and upload screenshot");
@@ -27,7 +49,7 @@
 //         {
 //           method: "POST",
 //           body: formData,
-//           credentials: "include", // ✅ required for isAuthenticated
+//           credentials: "include",
 //         }
 //       );
 
@@ -47,13 +69,28 @@
 //     }
 //   };
 
+//   /* ===============================
+//      TAB CONTENT (UI UNCHANGED)
+//   =============================== */
 //   const renderTabContent = () => {
+//     if (!bank) {
+//       return (
+//         <div className="py-6 text-center text-gray-400">
+//           No bank details available
+//         </div>
+//       );
+//     }
+
 //     switch (activeTab) {
 //       case "QR CODE":
 //         return (
 //           <div className="flex justify-center py-6">
-//             <div className="w-48 h-48 bg-gray-100 flex items-center justify-center text-gray-400">
-//               QR IMAGE
+//             <div className="w-48 h-48 bg-gray-100 flex items-center justify-center">
+//               <img
+//                 src={`${API_BASE_URL_IMAGE}/${bank.qr_code}`}
+//                 alt="QR Code"
+//                 className="w-full h-full object-contain"
+//               />
 //             </div>
 //           </div>
 //         );
@@ -61,18 +98,33 @@
 //       case "UPI ID":
 //         return (
 //           <div className="space-y-3 py-4 text-gray-700">
-//             <p><strong>UPI ID :-</strong> example@upi</p>
-//             <p><strong>UPI Name :-</strong> Company Name</p>
+//             <p>
+//               <strong>UPI ID :-</strong> {bank.upi_id}
+//             </p>
+//             <p>
+//               <strong>UPI Name :-</strong> {bank.upi_name}
+//             </p>
 //           </div>
 //         );
 
 //       default:
 //         return (
 //           <div className="space-y-3 py-4 text-gray-700">
-//             <p><strong>Account Holder Name :-</strong> Company Name</p>
-//             <p><strong>Bank Name :-</strong> HDFC Bank</p>
-//             <p><strong>Bank Account No. :-</strong> 1234567890</p>
-//             <p><strong>Bank IFSC Code :-</strong> HDFC0000123</p>
+//             <p>
+//               <strong>Account Holder Name :-</strong>{" "}
+//               {bank.acc_holder_name}
+//             </p>
+//             <p>
+//               <strong>Bank Name :-</strong> {bank.bank_name}
+//             </p>
+//             <p>
+//               <strong>Bank Account No. :-</strong>{" "}
+//               {bank.acc_number}
+//             </p>
+//             <p>
+//               <strong>Bank IFSC Code :-</strong>{" "}
+//               {bank.ifsc_number}
+//             </p>
 //           </div>
 //         );
 //     }
@@ -94,10 +146,9 @@
 //               key={tab}
 //               onClick={() => setActiveTab(tab)}
 //               className={`px-6 py-3 text-sm font-semibold transition
-//                 ${
-//                   activeTab === tab
-//                     ? "bg-crypto-purple text-white"
-//                     : "text-gray-600 hover:bg-gray-100"
+//                 ${activeTab === tab
+//                   ? "bg-crypto-purple text-white"
+//                   : "text-gray-600 hover:bg-gray-100"
 //                 }`}
 //             >
 //               {tab}
@@ -145,7 +196,7 @@
 
 //         {/* Submit Button */}
 //         <button
-//           onClick={handleSubmit} // ✅ connected
+//           onClick={handleSubmit}
 //           className="bg-crypto-purple hover:bg-crypto-dark-purple text-white font-semibold px-8 py-3 rounded-lg transition-all"
 //         >
 //           SUBMIT
@@ -160,10 +211,10 @@
 
 
 
-
-
 import { useEffect, useState } from "react";
 import { fetchBanks } from "../../api/bank.api";
+import { Copy, Download } from "lucide-react";
+import { toast } from "react-toastify";
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 const API_BASE_URL_IMAGE = import.meta.env.VITE_API_BASE_URL_IMAGE;
@@ -184,7 +235,7 @@ const InvestMoney = () => {
       try {
         const { data } = await fetchBanks();
         if (data?.data?.length) {
-          setBank(data.data[0]); // only one active bank
+          setBank(data.data[0]);
         }
       } catch (error) {
         console.error("Failed to fetch bank", error);
@@ -193,6 +244,63 @@ const InvestMoney = () => {
 
     loadBank();
   }, []);
+
+  /* ===============================
+     COPY UPI DETAILS
+  =============================== */
+  const copyUPI = async () => {
+    if (!bank) return;
+
+    const text = `${bank.upi_id}`;
+
+    try {
+      await navigator.clipboard.writeText(text);
+      toast.success("UPI details copied!");
+    } catch (err) {
+      toast.error("Copy failed");
+      console.error(err);
+    }
+  };
+
+  const copyName = async () => {
+    if (!bank) return;
+
+    const text = `${bank.upi_name}`;
+
+    try {
+      await navigator.clipboard.writeText(text);
+      toast.success("UPI details copied!");
+    } catch (err) {
+      toast.error("Copy failed");
+      console.error(err);
+    }
+  };
+
+  /* ===============================
+     DOWNLOAD QR IMAGE
+  =============================== */
+  const downloadQR = async () => {
+    if (!bank?.qr_code) return;
+
+    try {
+      const response = await fetch(
+        `${API_BASE_URL_IMAGE}/${bank.qr_code}`
+      );
+      const blob = await response.blob();
+
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = "qr-code.png";
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+
+      toast.success("QR downloaded");
+    } catch (error) {
+      toast.error("Download failed");
+    }
+  };
 
   /* ===============================
      SUBMIT HANDLER
@@ -224,7 +332,7 @@ const InvestMoney = () => {
         return;
       }
 
-      alert("Top-up request sent to admin successfully");
+      alert("Top-up request sent successfully");
       setAmount("");
       setFile(null);
     } catch (error) {
@@ -234,7 +342,7 @@ const InvestMoney = () => {
   };
 
   /* ===============================
-     TAB CONTENT (UI UNCHANGED)
+     TAB CONTENT
   =============================== */
   const renderTabContent = () => {
     if (!bank) {
@@ -248,7 +356,7 @@ const InvestMoney = () => {
     switch (activeTab) {
       case "QR CODE":
         return (
-          <div className="flex justify-center py-6">
+          <div className="flex flex-col items-center gap-4 py-6">
             <div className="w-48 h-48 bg-gray-100 flex items-center justify-center">
               <img
                 src={`${API_BASE_URL_IMAGE}/${bank.qr_code}`}
@@ -256,18 +364,48 @@ const InvestMoney = () => {
                 className="w-full h-full object-contain"
               />
             </div>
+
+            {/* Download Button */}
+            <button
+              onClick={downloadQR}
+              className="flex items-center gap-2 bg-crypto-purple text-white px-4 py-2 rounded hover:bg-crypto-dark-purple"
+            >
+              <Download size={18} />
+              Download QR
+            </button>
           </div>
         );
 
       case "UPI ID":
         return (
-          <div className="space-y-3 py-4 text-gray-700">
-            <p>
-              <strong>UPI ID :-</strong> {bank.upi_id}
-            </p>
-            <p>
-              <strong>UPI Name :-</strong> {bank.upi_name}
-            </p>
+          <div className="space-y-4 py-4 text-gray-700">
+            <div className="flex items-center justify-between bg-gray-50 p-3 rounded">
+              <div>
+                <p className="font-semibold">UPI ID</p>
+                <p>{bank.upi_id}</p>
+              </div>
+
+              <button
+                onClick={copyUPI}
+                className="text-crypto-purple hover:text-crypto-dark-purple"
+              >
+                <Copy size={20} />
+              </button>
+            </div>
+
+            <div className="flex items-center justify-between bg-gray-50 p-3 rounded">
+              <div>
+                <p className="font-semibold">UPI Name</p>
+                <p>{bank.upi_name}</p>
+              </div>
+
+              <button
+                onClick={copyName}
+                className="text-crypto-purple hover:text-crypto-dark-purple"
+              >
+                <Copy size={20} />
+              </button>
+            </div>
           </div>
         );
 
@@ -275,19 +413,17 @@ const InvestMoney = () => {
         return (
           <div className="space-y-3 py-4 text-gray-700">
             <p>
-              <strong>Account Holder Name :-</strong>{" "}
+              <strong>Account Holder Name:</strong>{" "}
               {bank.acc_holder_name}
             </p>
             <p>
-              <strong>Bank Name :-</strong> {bank.bank_name}
+              <strong>Bank Name:</strong> {bank.bank_name}
             </p>
             <p>
-              <strong>Bank Account No. :-</strong>{" "}
-              {bank.acc_number}
+              <strong>Account No:</strong> {bank.acc_number}
             </p>
             <p>
-              <strong>Bank IFSC Code :-</strong>{" "}
-              {bank.ifsc_number}
+              <strong>IFSC:</strong> {bank.ifsc_number}
             </p>
           </div>
         );
@@ -296,24 +432,21 @@ const InvestMoney = () => {
 
   return (
     <div className="p-6 space-y-6">
-      {/* Page Title */}
       <h2 className="text-xl font-semibold text-gray-800">
         Invest Money
       </h2>
 
-      {/* Payment Info Card */}
+      {/* Tabs Card */}
       <div className="bg-white rounded-lg shadow">
-        {/* Tabs */}
-        <div className="flex border-b">
+        <div className="flex border-b overflow-x-auto">
           {tabs.map((tab) => (
             <button
               key={tab}
               onClick={() => setActiveTab(tab)}
-              className={`px-6 py-3 text-sm font-semibold transition
-                ${
-                  activeTab === tab
-                    ? "bg-crypto-purple text-white"
-                    : "text-gray-600 hover:bg-gray-100"
+              className={`px-6 py-3 text-sm font-semibold whitespace-nowrap
+                ${activeTab === tab
+                  ? "bg-crypto-purple text-white"
+                  : "text-gray-600 hover:bg-gray-100"
                 }`}
             >
               {tab}
@@ -321,19 +454,15 @@ const InvestMoney = () => {
           ))}
         </div>
 
-        {/* Tab Content */}
-        <div className="px-6">
-          {renderTabContent()}
-        </div>
+        <div className="px-6">{renderTabContent()}</div>
       </div>
 
       {/* Deposit Form */}
       <div className="bg-white rounded-lg shadow p-6 space-y-6">
         <h3 className="text-lg font-semibold">
-          Please After Deposit Money, Fill The Form And Click On Submit.
+          After depositing money, upload screenshot and submit.
         </h3>
 
-        {/* Deposit Amount */}
         <div>
           <label className="block mb-2 text-sm font-medium">
             Deposit Amount
@@ -347,10 +476,9 @@ const InvestMoney = () => {
           />
         </div>
 
-        {/* Screenshot Upload */}
         <div>
           <label className="block mb-2 text-sm font-medium">
-            Add Deposit Amount Screenshot
+            Upload Screenshot
           </label>
           <input
             type="file"
@@ -359,10 +487,9 @@ const InvestMoney = () => {
           />
         </div>
 
-        {/* Submit Button */}
         <button
           onClick={handleSubmit}
-          className="bg-crypto-purple hover:bg-crypto-dark-purple text-white font-semibold px-8 py-3 rounded-lg transition-all"
+          className="bg-crypto-purple hover:bg-crypto-dark-purple text-white font-semibold px-8 py-3 rounded-lg transition"
         >
           SUBMIT
         </button>
