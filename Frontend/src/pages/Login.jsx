@@ -156,7 +156,7 @@ const Login = () => {
           <Link
             to="/signup"
             className="text-crypto-purple hover:text-white transition"
-            target="_blank" rel="noopener noreferrer"
+            
           >
             Sign up here
           </Link>

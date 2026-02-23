@@ -66,6 +66,7 @@ import {
   ArrowDownCircle,
   List,
   LogOut,
+  KeyRound
 } from "lucide-react";
 import { toast } from "react-toastify";
 import { useState } from "react";
@@ -78,12 +79,13 @@ const menuItems = [
   { name: "Withdraw Money", icon: <ArrowDownCircle size={18} />, path: "/user/withdraw", newTab: true, },
   { name: "Transaction", icon: <List size={18} />, path: "/user/transaction", newTab: true, },
   { name: "Order History", icon: <List size={18} />, path: "/user/order-history", newTab: true, },
+  { name: "Change Password", icon: <KeyRound size={18} />, path: "/user/change-password", newTab: true, },
 ];
 
 const UserSidebar = ({ isOpen }) => {
   const navigate = useNavigate();
 
-  
+
   const [loadingLogout, setLoadingLogout] = useState(false);
 
   const API_BASE = import.meta.env.VITE_API_BASE_URL || "";
@@ -109,7 +111,7 @@ const UserSidebar = ({ isOpen }) => {
       localStorage.removeItem("token");
 
       toast.success("Logged out successfully");
-      navigate("/login"); 
+      navigate("/login");
     } catch (error) {
       console.error("Logout error:", error);
       toast.error("Network error while logging out");
@@ -133,14 +135,11 @@ const UserSidebar = ({ isOpen }) => {
           <NavLink
             key={item.name}
             to={item.path}
-              target={item.newTab ? "_blank" : undefined}
-  rel={item.newTab ? "noopener noreferrer" : undefined}
             className={({ isActive }) =>
               `flex items-center gap-3 px-4 py-3 rounded-lg transition
-              ${
-                isActive
-                  ? "bg-orange-500 text-white"
-                  : "text-gray-300 hover:bg-white/10"
+              ${isActive
+                ? "bg-orange-500 text-white"
+                : "text-gray-300 hover:bg-white/10"
               }`
             }
           >
@@ -156,10 +155,9 @@ const UserSidebar = ({ isOpen }) => {
           onClick={handleLogout}
           disabled={loadingLogout}
           className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg font-semibold transition
-            ${
-              loadingLogout
-                ? "bg-red-400 cursor-wait"
-                : "bg-red-600 hover:bg-red-700"
+            ${loadingLogout
+              ? "bg-red-400 cursor-wait"
+              : "bg-red-600 hover:bg-red-700"
             }`}
         >
           <LogOut size={18} />

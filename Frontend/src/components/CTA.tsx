@@ -58,7 +58,7 @@ const CTA = () => {
 
           <div className="relative z-10">
             <h2 className="text-3xl md:text-5xl font-bold mb-6 text-white animate-fade-in leading-tight">
-              Start Your <span className="text-gradient">Forex Trading</span>{" "}
+              Start Your <span className="text-gradient">Trade Bull Forex</span>{" "}
               Journey Today
             </h2>
             <p

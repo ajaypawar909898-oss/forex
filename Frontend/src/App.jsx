@@ -1,5 +1,5 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { HashRouter as Router, Routes, Route } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -34,6 +34,8 @@ import AddTrade from "./pages/admin/AddTrade";
 import ProtectedRoute from "./routes/ProtectedRoute";
 import BankDetails from "./pages/admin/BankPage";
 
+import AllUser from "./pages/admin/AllUser";
+
 const queryClient = new QueryClient();
 
 const App = () => (
@@ -50,7 +52,7 @@ const App = () => (
 
     <Tooltip id="app-tooltip" />
 
-    <BrowserRouter>
+    <Router>
       <Routes>
         {/* ======================
             PUBLIC ROUTES
@@ -96,12 +98,13 @@ const App = () => (
           <Route path="/admin/profit-loss" element={<AddProfitAndLoss />} />
           <Route path="/admin/trade" element={<AddTrade />} />
           <Route path="/admin/bankDetail" element={<BankDetails />} />
+          <Route path="/admin/all-user" element={<AllUser />} />
         </Route>
 
         {/* Catch-all */}
         <Route path="*" element={<NotFound />} />
       </Routes>
-    </BrowserRouter>
+    </Router>
   </QueryClientProvider>
 );
 

@@ -7,6 +7,7 @@ const generateOTP = () => {
   return Math.floor(100000 + Math.random() * 900000);
 };
 
+
 export const login = async (req, res) => {
   // const db = db.promise();
 
@@ -23,9 +24,21 @@ export const login = async (req, res) => {
 
     // 🔍 Find user
     const query = `
-      SELECT id, name, email, password, role, is_verified,is_approved
-      FROM users
-      WHERE email = ?
+     SELECT
+    u.id,
+    u.name,
+    u.email,
+    u.password,   -- ⭐ ADD THIS
+    u.role,
+    u.is_verified,
+    u.is_approved,
+    u.mobile,
+
+    us.*
+FROM users u
+LEFT JOIN user_documents us
+    ON us.user_id = u.id
+WHERE u.email = ?
     `;
 
     const [rows] = await db.execute(query, [email]);
@@ -69,7 +82,7 @@ export const login = async (req, res) => {
     // 🎫 Create JWT
     const token = jwt.sign(
       {
-        id: user.id,
+        id: user.user_id,
         role: user.role,
       },
       process.env.JWT_SECRET,
@@ -78,13 +91,6 @@ export const login = async (req, res) => {
       }
     );
 
-    // 🍪 Store token in cookie
-    // res.cookie("token", token, {
-    //   httpOnly: true,
-    //   secure: false, // set true in production (HTTPS)
-    //   sameSite: "strict",
-    //   maxAge: 24 * 60 * 60 * 1000, // 1 day
-    // });
 
 
     res.cookie("token", token, {
@@ -99,10 +105,7 @@ export const login = async (req, res) => {
       success: true,
       message: "Login successful",
       data: {
-        id: user.id,
-        name: user.name,
-        email: user.email,
-        role: user.role,
+        ...user
       },
     });
   } catch (error) {
@@ -114,6 +117,7 @@ export const login = async (req, res) => {
     });
   }
 };
+
 
 export const logout = async (req, res) => {
   try {

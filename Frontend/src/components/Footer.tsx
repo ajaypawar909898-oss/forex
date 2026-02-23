@@ -10,7 +10,7 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 pb-8">
           <div className="lg:col-span-2">
             <h2 className="text-2xl font-bold text-white mb-4">
-              Forex<span className="text-crypto-purple">Trading</span>
+              Trade<span className="text-crypto-purple">Bull Forex</span>
             </h2>
             <p className="text-gray-400 mb-6 max-w-xs">
               The most trusted Forex trading platform, empowering traders with

@@ -126,7 +126,7 @@ const AdminSidebar = () => {
         localStorage.removeItem("isLoggedIn");
         localStorage.removeItem("token");
         localStorage.removeItem("user");
-        
+
       } catch (e) {
         // ignore if localStorage unavailable
       }
@@ -194,14 +194,16 @@ const AdminSidebar = () => {
           <NavLink to="/admin/bankDetail" className={navLinkClasses}>
             Bank Detail
           </NavLink>
+          <NavLink to="/admin/all-user" className={navLinkClasses}>
+            All Users
+          </NavLink>
         </nav>
 
         <button
           onClick={handleLogout}
           disabled={loadingLogout}
-          className={`mt-10 w-full transition-colors py-3 rounded-lg font-semibold ${
-            loadingLogout ? "bg-red-400 cursor-wait" : "bg-red-600 hover:bg-red-700"
-          }`}
+          className={`mt-10 w-full transition-colors py-3 rounded-lg font-semibold ${loadingLogout ? "bg-red-400 cursor-wait" : "bg-red-600 hover:bg-red-700"
+            }`}
         >
           {loadingLogout ? "Logging out..." : "Logout"}
         </button>

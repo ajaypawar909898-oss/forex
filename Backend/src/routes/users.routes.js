@@ -4,6 +4,9 @@ import { isAuthenticated } from "../middleware/auth.middleware.js";
 import {
   getAllUnApprovedUsers,
   getAllUsers,
+  editUserById,
+  passwordChange,
+  updateUserStatus
 } from "../controller/users.controller.js";
 const userRoutes = express.Router();
 
@@ -11,4 +14,9 @@ const userRoutes = express.Router();
 
 userRoutes.get("/", isAuthenticated, getAllUsers);
 userRoutes.get("/unapprove", isAuthenticated, getAllUnApprovedUsers);
+userRoutes.post("/edit", isAuthenticated, editUserById);
+userRoutes.post("/password", isAuthenticated, passwordChange);
+userRoutes.get("/gelAllUser", isAuthenticated, getAllUsers);
+userRoutes.put("/updateUser/:id", isAuthenticated, updateUserStatus);
+
 export default userRoutes;

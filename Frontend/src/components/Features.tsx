@@ -42,7 +42,7 @@ const Features = () => {
          
           
           <h2 className="text-3xl md:text-5xl font-bold mb-4 text-white">
-            Professional <span className="text-gradient">Forex Trading</span> Features
+            Professional <span className="text-gradient">Trade Bull Forex</span> Features
           </h2>
           <p className="text-gray-400 text-lg max-w-3xl mx-auto">
             Equip yourself with institutional-grade tools and features designed for serious forex traders. 
