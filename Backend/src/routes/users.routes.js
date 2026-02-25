@@ -6,7 +6,8 @@ import {
   getAllUsers,
   editUserById,
   passwordChange,
-  updateUserStatus
+  updateUserStatus,
+  deleteUser
 } from "../controller/users.controller.js";
 const userRoutes = express.Router();
 
@@ -18,5 +19,6 @@ userRoutes.post("/edit", isAuthenticated, editUserById);
 userRoutes.post("/password", isAuthenticated, passwordChange);
 userRoutes.get("/gelAllUser", isAuthenticated, getAllUsers);
 userRoutes.put("/updateUser/:id", isAuthenticated, updateUserStatus);
+userRoutes.delete("/delete/:id", isAuthenticated, deleteUser);
 
 export default userRoutes;

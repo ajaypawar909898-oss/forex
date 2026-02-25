@@ -178,8 +178,8 @@ const BankForm = ({ editData, onClose, refresh }) => {
           {loading
             ? "Saving..."
             : editData
-            ? "Update Bank"
-            : "Create Bank"}
+              ? "Update Bank"
+              : "Create Bank"}
         </button>
       </div>
     </form>

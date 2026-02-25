@@ -1,5 +1,7 @@
 import db from "../utils/db.js";
 import bcrypt from "bcrypt";
+import { deleteFile } from "../utils/deleteFile.js";
+
 
 export const getAllUsers = async (req, res) => {
   if (req.user.role !== "admin") {
@@ -107,9 +109,6 @@ export const editUserById = async (req, res) => {
   }
 };
 
-
-
-
 export const passwordChange = async (req, res) => {
   try {
     const userId = req.user.id;   // from JWT middleware
@@ -200,9 +199,6 @@ export const passwordChange = async (req, res) => {
   }
 };
 
-
-
-
 // ✅ UPDATE USER STATUS (Active / Inactive)
 export const updateUserStatus = async (req, res) => {
   try {
@@ -258,5 +254,105 @@ export const updateUserStatus = async (req, res) => {
       success: false,
       message: "Failed to update status",
     });
+  }
+};
+
+// DELETE USER AND RELATED DATA + FILES
+export const deleteUser = async (req, res) => {
+  if (req.user.role !== "admin") {
+    return res.status(403).json({
+      success: false,
+      message: "Admin access only",
+    });
+  }
+  const { id } = req.params;
+
+  const connection = await db.getConnection();
+
+  try {
+    await connection.beginTransaction();
+
+    // ✅ 1️⃣ Check if user exists
+    const [user] = await connection.query(
+      "SELECT id FROM users WHERE id = ?",
+      [id]
+    );
+
+    if (user.length === 0) {
+      await connection.rollback();
+      return res.status(404).json({
+        success: false,
+        message: "User not found",
+      });
+    }
+
+    // ✅ 2️⃣ Get document images BEFORE delete
+    const [documents] = await connection.query(
+      `SELECT pan_image, aadhaar_image, bank_passbook_image
+       FROM user_documents WHERE user_id = ?`,
+      [id]
+    );
+
+    // delete document images
+    if (documents.length > 0) {
+      deleteFile(documents[0].pan_image);
+      deleteFile(documents[0].aadhaar_image);
+      deleteFile(documents[0].bank_passbook_image);
+    }
+
+    // ✅ 3️⃣ Get wallet payment images
+    const [walletImages] = await connection.query(
+      `SELECT payment_image
+       FROM user_wallet_transactions
+       WHERE user_id = ?`,
+      [id]
+    );
+
+    walletImages.forEach((item) => {
+      deleteFile(item.payment_image);
+    });
+
+    // ✅ 4️⃣ Delete orders
+    await connection.query(
+      "DELETE FROM orders WHERE user_id = ?",
+      [id]
+    );
+
+    // ✅ 5️⃣ Delete wallet transactions
+    await connection.query(
+      "DELETE FROM user_wallet_transactions WHERE user_id = ?",
+      [id]
+    );
+
+    // ✅ 6️⃣ Delete user documents
+    await connection.query(
+      "DELETE FROM user_documents WHERE user_id = ?",
+      [id]
+    );
+
+    // ✅ 7️⃣ Delete user
+    await connection.query(
+      "DELETE FROM users WHERE id = ?",
+      [id]
+    );
+
+    await connection.commit();
+
+    res.status(200).json({
+      success: true,
+      message: "User, related data & images deleted successfully",
+    });
+
+  } catch (error) {
+    await connection.rollback();
+    console.error(error);
+
+    res.status(500).json({
+      success: false,
+      message: "Error deleting user",
+      error: error.message,
+    });
+  } finally {
+    connection.release();
   }
 };
