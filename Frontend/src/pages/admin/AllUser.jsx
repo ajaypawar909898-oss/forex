@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import { getAllUser, updateUser } from "../../api/bank.api";
+import { getAllUser, updateUser, deleteUser } from "../../api/bank.api";
 import AdminSidebar from "./AdminSidebar";
 
 const AllUser = () => {
     const [users, setUsers] = useState([]);
     const [loading, setLoading] = useState(false);
+    const [openConfirm, setOpenConfirm] = useState(false);
+    const [UserId, setUserId] = useState(null);
 
     // 🔹 Fetch Users
     const fetchUsers = async () => {
@@ -46,6 +48,72 @@ const AllUser = () => {
             console.error(error);
         }
     };
+
+
+    // const handleDeleUserDetails = async () => {
+    //     console.log(UserId);
+    //     await deleteUser(UserId).unwrap().then((res) => {
+    //         console.log(res);
+
+    //         if (res.data?.success) {
+    //             fetchUsers()
+    //             setOpenConfirm(false)
+    //         }
+    //     }).catch((err) => {
+    //         console.error(err);
+    //     })
+
+    //     setOpenConfirm(false)
+    // }
+
+    const handleDeleUserDetails = async () => {
+        try {
+            console.log(UserId);
+
+            const res = await deleteUser(UserId);
+
+            if (res.data?.success) {
+                toast.success("User deleted");
+                fetchUsers();
+            }
+
+            setOpenConfirm(false);
+        } catch (err) {
+            console.error(err);
+            toast.error("Delete failed");
+        }
+    };
+
+    const OpenConfirmModel = () => {
+        if (!openConfirm) return null;
+
+        return (
+            <div className="fixed inset-0 flex items-center justify-center bg-black/40 z-50">
+                <div className="bg-white p-6 rounded shadow-lg text-center">
+                    <p className="mb-4 font-semibold">
+                        Are you sure you want to delete this user?
+                    </p>
+
+                    <div className="flex justify-center gap-4">
+                        <button
+                            onClick={handleDeleUserDetails}
+                            className="bg-red-500 text-white px-4 py-2 rounded"
+                        >
+                            Yes
+                        </button>
+
+                        <button
+                            onClick={() => setOpenConfirm(false)}
+                            className="bg-gray-300 px-4 py-2 rounded"
+                        >
+                            No
+                        </button>
+                    </div>
+                </div>
+            </div>
+        );
+    };
+
 
     return (
         <div className="flex min-h-screen bg-gray-100">
@@ -143,6 +211,8 @@ const AllUser = () => {
                                                     ).toLocaleDateString()
                                                     : "-"}
                                             </td>
+
+                                            <td className="p-3 border text-sm hover:cursor-pointer" onClick={() => { setOpenConfirm(true), setUserId(user?.id) }}>🗑️</td>
                                         </tr>
                                     ))}
 
@@ -162,6 +232,8 @@ const AllUser = () => {
                     </div>
                 )}
             </div>
+
+            <OpenConfirmModel />
         </div>
     );
 };

@@ -23,7 +23,12 @@ const ApproveWithdrawl = () => {
         const data = await res.json();
 
         if (data.success) {
-          setRequests(data.data || []);
+          // setRequests(data.data || []);
+          setRequests(() =>
+            data?.data?.filter(item =>
+              item?.transaction_type?.toLowerCase().includes("withdrawal")
+            )
+          );
         }
       } catch (error) {
         console.error("Error fetching pending withdrawals:", error);

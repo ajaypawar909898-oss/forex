@@ -8,3 +8,4 @@ export const editUserProdile = (data) => axios.post("/user/edit", data);
 export const editUserPassword = (data) => axios.post("/user/password", data);
 export const getAllUser = (data) => axios.get("/user/gelAllUser", data);
 export const updateUser = (userId, value) => axios.put(`/user/updateUser/${userId}`, { is_approved: value, });
+export const deleteUser = (id) => axios.delete(`/user/delete/${id}`);
