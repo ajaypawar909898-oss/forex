@@ -11,6 +11,10 @@ const ChangePassword = () => {
     oldPassword: ""
   })
 
+  const [oldPassword, setOldPassword] = useState(false)
+  const [newPassword, setNewPassword] = useState(false)
+  const [confirmPassword, setConfirmPassword] = useState(false)
+
   const handleChangePassword = async (e) => {
     e.preventDefault();
 
