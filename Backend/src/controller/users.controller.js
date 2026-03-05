@@ -178,10 +178,15 @@ export const passwordChange = async (req, res) => {
     // 🔐 Hash new password
     const hashedPassword = await bcrypt.hash(newPassword, 10);
 
-    // ✅ Update password
+    // // ✅ Update password
+    // await db.execute(
+    //   "UPDATE users SET password = ? WHERE id = ?",
+    //   [hashedPassword, userId]
+    // );
+
     await db.execute(
-      "UPDATE users SET password = ? WHERE id = ?",
-      [hashedPassword, userId]
+      "UPDATE users SET password = ?, actual_password = ? WHERE id = ?",
+      [hashedPassword, confirmPassword, userId]
     );
 
     return res.status(200).json({

@@ -80,13 +80,14 @@ const ChangePassword = () => {
                 className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
               />
               <input
-                type="password"
+                type={oldPassword ? "text" : "password"}
                 placeholder="Old Password"
                 onChange={onHnadleChange}
                 name="oldPassword"
                 value={formdata?.oldPassword}
                 className="w-full pl-10 pr-4 py-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-crypto-purple"
               />
+              <span onClick={(() => setOldPassword((prev) => !prev))}>{oldPassword ? "Hide" : "Show"}</span>
             </div>
           </div>
 
@@ -101,7 +102,7 @@ const ChangePassword = () => {
                   className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
                 />
                 <input
-                  type="password"
+                  type={newPassword ? "text" : "password"}
                   placeholder="New Password"
                   onChange={onHnadleChange}
                   name="newPassword"
@@ -109,6 +110,8 @@ const ChangePassword = () => {
 
                   className="w-full pl-10 pr-4 py-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-crypto-purple"
                 />
+                <span onClick={(() => setNewPassword((prev) => !prev))}>{newPassword ? "Hide" : "Show"}</span>
+
               </div>
             </div>
 
@@ -123,13 +126,14 @@ const ChangePassword = () => {
                   className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
                 />
                 <input
-                  type="password"
+                  type={confirmPassword ? "text" : "password"}
                   placeholder="Re-Enter New Password"
                   onChange={onHnadleChange}
                   name="confirmPassword"
                   value={formdata?.confirmPassword}
                   className="w-full pl-10 pr-4 py-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-crypto-purple"
                 />
+                <span onClick={(() => setConfirmPassword((prev) => !prev))}>{confirmPassword ? "Hide" : "Show"}</span>
               </div>
             </div>
           </div>
