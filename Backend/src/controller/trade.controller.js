@@ -853,8 +853,8 @@ export const completeTrade = async (req, res) => {
         await db.execute(
             `
       INSERT INTO user_wallet_transactions
-      (user_id, amount, transaction_type, status, admin_remark, approved_by, approved_at)
-      VALUES (?, ?, ?, 'approved', ?, ?, NOW())
+      (user_id, amount, transaction_type, status, admin_remark, approved_by, approved_at,order_id)
+      VALUES (?, ?, ?, 'approved', ?, ?, NOW(),?)
       `,
             [
                 Number(user_id),
@@ -862,6 +862,7 @@ export const completeTrade = async (req, res) => {
                 profit_type,
                 `Trade Completed: Order #${id}`,
                 req.user.id,
+                Number(id), // ✅ order_id saved here
             ]
         );
 
