@@ -1040,6 +1040,11 @@ export const deleteTrade = async (req, res) => {
             [id]
         );
 
+        await db.execute(
+            `DELETE FROM user_wallet_transactions WHERE order_id=?`,
+            [id]
+        );
+
         return res.status(200).json({
             success: true,
             message: "Trade deleted successfully ✅",
